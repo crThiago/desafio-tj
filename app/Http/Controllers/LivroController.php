@@ -6,25 +6,26 @@ use App\Http\Requests\LivroRequest;
 use App\Http\Resources\LivroResource;
 use App\Http\Resources\PaginateCollection;
 use App\Models\Livro;
+use App\Services\LivroService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class LivroController extends Controller
 {
+    private LivroService $livroService;
+
+    public function __construct() {
+        $this->livroService = new LivroService();
+    }
+
     public function index(Request $request) {
-        $query = Livro::query();
-
-        $query->when($request->has('search'), function ($search) use ($request) {
-            return $search->where(function ($query) use ($request) {
-                $query->where('Titulo', 'like', '%' . $request->search . '%')
-                    ->orWhere('Editora', 'like', '%' . $request->search . '%')
-                    ->orWhereHas('autores', function ($query) use ($request) {
-                        $query->where('Nome', 'like', '%' . $request->search . '%');
-                    });
-            });
-        });
-
-        return new PaginateCollection($query->paginate($request->itemsPerPage));
+        return new PaginateCollection(
+            $this->livroService->list(
+                $request->get('search', ''),
+                $request->get('page', 1),
+                $request->get('itemsPerPage', 15)
+            )
+        );
     }
 
     public function show(Livro $livro) {
@@ -35,7 +36,7 @@ class LivroController extends Controller
         DB::beginTransaction();
 
         try {
-             $result = Livro::create($request->validated());
+             $result = $this->livroService->create($request->validated());
              DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
@@ -51,7 +52,7 @@ class LivroController extends Controller
         DB::beginTransaction();
 
         try {
-            $livro->update($request->validated());
+            $this->livroService->update($livro->Codl, $request->validated());
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
@@ -59,6 +60,22 @@ class LivroController extends Controller
             return $this->sendError('Ocorreu um erro ao atualizar o livro');
         }
 
-        return new LivroResource($livro);
+        return true;
+    }
+
+    public function destroy(Livro $livro)
+    {
+        DB::beginTransaction();
+
+        try {
+            $this->livroService->delete($livro->Codl);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error($e);
+            return $this->sendError('Ocorreu um erro ao excluir o livro');
+        }
+
+        return true;
     }
 }

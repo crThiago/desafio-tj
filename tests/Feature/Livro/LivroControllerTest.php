@@ -4,7 +4,6 @@ namespace Tests\Feature\Livro;
 
 use App\Models\Livro;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class LivroControllerTest extends TestCase
@@ -92,7 +91,14 @@ class LivroControllerTest extends TestCase
         ];
 
         $this->put(route('livro.update', ['livro' => $livro->Codl]), $livroDados)
-            ->assertJson(['data' => $livroDados])
+            ->assertOk();
+    }
+
+    public function test_destroy_livro(): void
+    {
+        $livro = Livro::factory()->create();
+
+        $this->delete(route('livro.destroy', ['livro' => $livro->Codl]))
             ->assertOk();
     }
 }
