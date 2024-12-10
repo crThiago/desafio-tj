@@ -11,7 +11,7 @@ class Livro extends Model
     public $timestamps = false;
     protected $primaryKey = 'Codl';
 
-    protected $fillable = ['Titulo', 'Editora', 'AnoPublicacao', 'Preco'];
+    protected $fillable = ['Titulo', 'Editora', 'AnoPublicacao', 'Valor'];
 
     public function autores(): BelongsToMany
     {
