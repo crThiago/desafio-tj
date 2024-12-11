@@ -1,5 +1,6 @@
 <script setup>
 
+import Alert from "../components/feedback/Alert.vue";
 </script>
 
 <template>
@@ -17,12 +18,39 @@
             </v-list>
 
             <v-list density="compact" nav >
-                <v-list-item class="text-brown-lighten-1" prepend-icon="mdi-home" title="Página Inicial" value="home" :to="{name: 'home'}"/>
-                <v-list-item class="bg-brown-lighten-1" prepend-icon="mdi-account-star" title="Autores" value="authors" :to="{name: 'authors'}"/>
-                <v-list-item color="primary" prepend-icon="mdi-bookmark-box-multiple" title="Assuntos" value="topics" :to="{name: 'topics'}"/>
-                <v-list-item prepend-icon="mdi-bookshelf" title="Livros" value="books" :to="{name: 'books'}"/>
-                <v-list-item prepend-icon="mdi-table" title="Relatorio" value="report" :to="{name: 'report'}"/>
                 <v-list-item
+                    color="primary"
+                    prepend-icon="mdi-home"
+                    title="Página
+                    Inicial"
+                    :to="{name: 'home'}"
+                />
+                <v-list-item
+                    color="primary"
+                    prepend-icon="mdi-account-star"
+                    title="Autores"
+                    :to="{name: 'authors'}"
+                />
+                <v-list-item
+                    color="primary"
+                    prepend-icon="mdi-bookmark-box-multiple"
+                    title="Assuntos"
+                    :to="{name: 'topics'}"
+                />
+                <v-list-item
+                    color="primary"
+                    prepend-icon="mdi-bookshelf"
+                    title="Livros"
+                    :to="{name: 'books'}"
+                />
+                <v-list-item
+                    color="primary"
+                    prepend-icon="mdi-table"
+                    title="Relatorio"
+                    :to="{name: 'report'}"
+                />
+                <v-list-item
+                    color="primary"
                     prepend-icon="mdi-github"
                     title="Repositório"
                     value="repository"
@@ -35,6 +63,7 @@
         <v-main class="background">
             <v-container>
                 <RouterView />
+                <Alert />
             </v-container>
         </v-main>
     </v-app>

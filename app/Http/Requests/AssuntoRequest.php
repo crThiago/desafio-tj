@@ -25,4 +25,9 @@ class AssuntoRequest extends FormRequest
             'Descricao' => 'required|string|max:20',
         ];
     }
+
+    public function attributes()
+    {
+        return ['Descricao' => 'descrição'];
+    }
 }

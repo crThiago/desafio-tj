@@ -1,8 +1,4 @@
 <script setup lang="ts">
-// import { useDisplay } from 'vuetify'
-// const { mobile } = useDisplay()
-
-
 defineProps({
     title: String,
     icon: String,

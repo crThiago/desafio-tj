@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import store from "../../plugins/store";
 export default interface HttpClient {
     get (url: string, config?: any): Promise<any>;
     post (url: string, body: any): Promise<any>;
@@ -45,6 +45,26 @@ export class AxiosAdapter implements HttpClient {
     }
 
     private interceptSuccess(response: any) {
+        if (response.status === 200 || response.status === 201) {
+            const method = response.config.method; // Retorna 'post', 'put', 'delete', etc.
+            if (method === 'post') {
+                store.commit('alert/show', {
+                    message: 'Cadastro realizado com sucesso.',
+                    type: 'success'
+                })
+            } else if (method === 'put') {
+                store.commit('alert/show', {
+                    message: 'Cadastro atualizado com sucesso.',
+                    type: 'success'
+                })
+            } else if (method === 'delete') {
+                store.commit('alert/show', {
+                    message: 'Cadastro excluído com sucesso.',
+                    type: 'success'
+                })
+            }
+        }
+
         return response;
     }
 
