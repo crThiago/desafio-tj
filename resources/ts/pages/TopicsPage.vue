@@ -5,7 +5,7 @@ import DialogTopicForm from "../components/dialog/DialogTopicForm.vue";
 import BtnEditList from "../components/buttons/btnEditList.vue";
 import BtnDeleteList from "../components/buttons/btnDeleteList.vue";
 import DialogDeleteTopicConfirmation from "../components/dialog/DialogDeleteTopicConfirmation.vue";
-import BtnIconTooltip from "../components/buttons/btnIconTooltip.vue";
+import HeaderPage from "../components/containment/HeaderPage.vue";
 
 const search = ref('');
 
@@ -16,7 +16,7 @@ let timeoutId;
 
 const headers = [
     { title: 'Descrição', sortable: false, key: 'Descricao' },
-    { title: 'Quantidade Livros', sortable: false, key: 'livros_count' },
+    { title: 'Quantidade Livros', sortable: false, key: 'livros_count', align: 'center'},
     { title: 'Ações', key: 'actions', sortable: false },
 ]
 
@@ -38,7 +38,6 @@ function loadingItems(options) {
                 itemsPerPage = options.itemsPerPage;
                 items.value = response.data;
                 totalItems.value = response.meta.total;
-                console.log(response)
             })
             .finally(() => loading.value = false);
     }, 300)
@@ -70,18 +69,10 @@ watch(dialog, () => {
 </script>
 
 <template>
-    <div class="d-flex justify-space-between">
-        <h1 class="text-primary"><v-icon icon="mdi-bookmark-box-multiple"/> Assuntos</h1>
-        <btn-icon-tooltip
-            icon="mdi-home"
-            text="Voltar para a Página Inicial"
-            color="primary"
-            :to="{name: 'home'}"
-            size="default"
-        />
-    </div>
-
-    <v-divider class="secondary my-6" />
+    <header-page
+        title="Assuntos"
+        icon="mdi-bookmark-box-multiple"
+    />
 
     <v-row no-gutters>
         <v-col cols="12" sm="3">
