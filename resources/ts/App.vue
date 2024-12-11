@@ -1,10 +1,7 @@
 <script setup lang="ts">
+import Default from "./layouts/Default.vue";
 </script>
 
 <template>
-    <h1>Hello World</h1>
+    <Default />
 </template>
-
-<style scoped >
-
-</style>
