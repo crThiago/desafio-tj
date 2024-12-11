@@ -29,7 +29,7 @@ class LivroController extends Controller
     }
 
     public function show(Livro $livro) {
-        return new LivroResource($livro->load('autores'));
+        return new LivroResource($livro);
     }
 
     public function store(LivroRequest $request) {

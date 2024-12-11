@@ -26,6 +26,8 @@ class LivroRequest extends FormRequest
             'Editora' => 'required|string|max:40',
             'AnoPublicacao' => 'required|string|size:4',
             'Valor' => 'required|numeric|min:0',
+            'Autores' => 'nullable|array|exists:Autor,CodAu',
+            'Assuntos' => 'nullable|array|exists:Assunto,codAs',
         ];
     }
 }

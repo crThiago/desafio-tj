@@ -16,6 +16,8 @@ class Livro extends Model
 
     protected $fillable = ['Titulo', 'Editora', 'AnoPublicacao', 'Valor'];
 
+    protected $with = ['autores', 'assuntos'];
+
     public function autores(): BelongsToMany
     {
         return $this->belongsToMany(

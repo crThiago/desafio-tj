@@ -19,6 +19,8 @@ class LivroControllerTest extends TestCase
             'Editora' => fake()->word(),
             'AnoPublicacao' => fake()->year(),
             'Valor' => fake()->randomFloat(2, 0, 500),
+            'Autores' => [],
+            'Assuntos' => [],
         ];
 
         $this->post(
@@ -36,11 +38,12 @@ class LivroControllerTest extends TestCase
             'Editora' => fake()->text(),
             'AnoPublicacao' => fake()->month(),
             'Valor' => fake()->randomFloat(2, 0, 500) * -1,
+            'Autores' => [0],
+            'Assuntos' => [0],
         ];
 
         $this->post(route('livro.store'), $livro)
-            // todo ->assertStatus(422)
-            ->assertSessionHasErrors(['Titulo', 'Editora', 'AnoPublicacao', 'Valor']);
+            ->assertSessionHasErrors(['Titulo', 'Editora', 'AnoPublicacao', 'Valor', 'Autores', 'Assuntos']);
     }
 
 
@@ -88,6 +91,8 @@ class LivroControllerTest extends TestCase
             'Editora' => fake()->word(),
             'AnoPublicacao' => fake()->year(),
             'Valor' => fake()->randomFloat(2, 0, 500),
+            'Autores' => [],
+            'Assuntos' => [],
         ];
 
         $this->put(route('livro.update', ['livro' => $livro->Codl]), $livroDados)

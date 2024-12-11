@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Livro;
 
+use App\Models\Assunto;
 use App\Models\Autor;
 use App\Models\Livro;
 use App\Services\LivroService;
@@ -20,9 +21,6 @@ class LivroServiceTest extends TestCase
         $this->livroService = new LivroService();
     }
 
-    /**
-     * A basic feature test example.
-     */
     public function test_create_livro(): void
     {
         $livro = $this->livroService->create([
@@ -39,6 +37,32 @@ class LivroServiceTest extends TestCase
             'AnoPublicacao' => $livro->AnoPublicacao,
             'Valor' => $livro->Valor,
         ]);
+    }
+
+    public function test_create_livro_with_relations(): void
+    {
+        $autores = Autor::factory(2)->create();
+        $assuntos = Assunto::factory(3)->create();
+
+        $livro = $this->livroService->create([
+            'Titulo' => 'Livro Teste',
+            'Editora' => 'Editora Teste',
+            'AnoPublicacao' => '2023',
+            'Valor' => '10.00',
+            'Autores' => $autores->pluck('CodAu')->toArray(),
+            'Assuntos' => $assuntos->pluck('codAs')->toArray(),
+        ]);
+
+
+        $this->assertDatabaseHas('Livro', [
+            'Titulo' => $livro->Titulo,
+            'Editora' => $livro->Editora,
+            'AnoPublicacao' => $livro->AnoPublicacao,
+            'Valor' => $livro->Valor,
+        ]);
+
+        $this->assertCount(2, $livro->autores);
+        $this->assertCount(3, $livro->assuntos);
     }
 
     public function test_update_livro(): void
@@ -63,6 +87,35 @@ class LivroServiceTest extends TestCase
         ]);
     }
 
+    public function test_update_livro_with_relations(): void
+    {
+        $livro = Livro::factory()->create();
+        $autores = Autor::factory(2)->create();
+        $assuntos = Assunto::factory(3)->create();
+
+        $this->livroService->update(
+            $livro->Codl,
+            [
+                'Titulo' => 'Livro Teste Update',
+                'Editora' => 'Editora Teste',
+                'AnoPublicacao' => '2023',
+                'Valor' => '10.00',
+                'Autores' => $autores->pluck('CodAu')->toArray(),
+                'Assuntos' => $assuntos->pluck('codAs')->toArray(),
+            ]
+        );
+
+        $this->assertDatabaseHas('Livro', [
+            'Titulo' => 'Livro Teste Update',
+            'Editora' => 'Editora Teste',
+            'AnoPublicacao' => '2023',
+            'Valor' => '10.00',
+        ]);
+
+        $this->assertCount(2, $livro->autores);
+        $this->assertCount(3, $livro->assuntos);
+    }
+
     public function test_delete_livro(): void
     {
         $livro = Livro::factory()->create();
@@ -77,7 +130,14 @@ class LivroServiceTest extends TestCase
         $itemsPerPage = 5;
         $page = 2;
 
-        $livros = array_values(Livro::factory(40)->create()->skip($itemsPerPage)->take($itemsPerPage)->toArray());
+        $livros = array_values(
+            Livro::factory(40)
+                ->create()
+                ->load('autores', 'assuntos')
+                ->skip($itemsPerPage)
+                ->take($itemsPerPage)
+                ->toArray()
+        );
 
         $list = $this->livroService->list(null, $page, $itemsPerPage)->toArray();
         $this->assertCount($itemsPerPage, $list['data']);
@@ -120,6 +180,6 @@ class LivroServiceTest extends TestCase
         $list = $this->livroService->list('Autor Teste')->toArray();
         $this->assertCount(3, $list['data']);
         $this->assertEquals(3, $list['total']);
-        $this->assertEquals($livrosPesquisados->toArray(), $list['data']);
+        $this->assertEquals($livrosPesquisados->load('autores', 'assuntos')->toArray(), $list['data']);
     }
 }

@@ -28,4 +28,37 @@ class LivroService extends Repository
 
         return $this->paginate($itemsPerPage, ['*'], 'page', $page);
     }
+
+    public function create(array $data): mixed
+    {
+        $livro = parent::create($data);
+
+        if (!empty($data['Autores'])) {
+            $livro->autores()->attach($data['Autores']);
+        }
+
+        if (!empty($data['Assuntos'])) {
+            $livro->assuntos()->attach($data['Assuntos']);
+        }
+
+        return $livro;
+    }
+
+    public function update(int $id, array $data): mixed
+    {
+        $livro = $this->find($id);
+
+        $livro->update($data);
+
+        if (!empty($data['Autores'])) {
+            $livro->autores()->sync($data['Autores']);
+        }
+
+        if (!empty($data['Assuntos'])) {
+            $livro->assuntos()->sync($data['Assuntos']);
+        }
+
+        return true;
+    }
+
 }

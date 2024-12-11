@@ -21,6 +21,7 @@ class LivroResource extends JsonResource
             'AnoPublicacao' => $this->AnoPublicacao,
             'Valor' => $this->Valor,
             'Autores' => AutorResource::collection($this->autores),
+            'Assuntos' => AssuntoResource::collection($this->assuntos),
         ];
     }
 }
