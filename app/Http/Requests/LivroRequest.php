@@ -30,4 +30,16 @@ class LivroRequest extends FormRequest
             'Assuntos' => 'nullable|array|exists:Assunto,codAs',
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'Titulo' => 'Título',
+            'Editora' => 'Editora',
+            'AnoPublicacao' => 'Ano de publicação',
+            'Valor' => 'Valor',
+            'Autores' => 'Autores',
+            'Assuntos' => 'Assuntos',
+        ];
+    }
 }

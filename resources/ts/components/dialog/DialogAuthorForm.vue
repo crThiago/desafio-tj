@@ -1,7 +1,6 @@
 <script setup lang="ts">
 
 import {inject, Ref, ref, watch} from "vue";
-import {TopicForm} from "../../types/TopicType";
 import {AuthorForm} from "../../types/AuthorType";
 
 const authorGateway = inject("authorGateway");
