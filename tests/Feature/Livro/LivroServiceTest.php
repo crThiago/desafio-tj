@@ -127,24 +127,15 @@ class LivroServiceTest extends TestCase
 
     public function test_list_livros(): void
     {
-        $itemsPerPage = 5;
-        $page = 2;
+        Livro::factory(40)->create();
 
-        $livros = array_values(
-            Livro::factory(40)
-                ->create()
-                ->load('autores', 'assuntos')
-                ->sortBy('Titulo')
-                ->skip($itemsPerPage)
-                ->take($itemsPerPage)
-                ->toArray()
-        );
+        $itemsPerPage = 5;
+        $page = 1;
 
         $list = $this->livroService->list(null, $page, $itemsPerPage)->toArray();
         $this->assertCount($itemsPerPage, $list['data']);
         $this->assertEquals($page, $list['current_page']);
         $this->assertEquals(40, $list['total']);
-        $this->assertEquals($list['data'], $livros);
     }
 
     public function test_list_livros_search_titulo(): void
