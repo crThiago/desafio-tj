@@ -11,10 +11,13 @@ import Alert from "../components/feedback/Alert.vue";
             color="background"
         >
             <v-list>
-                <v-list-item
-                    prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
-                    title="Desafio TJ"
-                />
+                <v-list-item title="Desafio TJ" class="ml-n3">
+                    <template v-slot:prepend>
+                        <v-btn icon color="primary" variant="outlined" class="mr-3" >
+                            <v-icon>mdi-book-open-blank-variant</v-icon>
+                        </v-btn>
+                    </template>
+                </v-list-item>
             </v-list>
 
             <v-list density="compact" nav >
@@ -49,6 +52,9 @@ import Alert from "../components/feedback/Alert.vue";
                     title="Relatorio"
                     :to="{name: 'report'}"
                 />
+            </v-list>
+
+            <v-list>
                 <v-list-item
                     color="primary"
                     prepend-icon="mdi-github"
@@ -69,6 +75,10 @@ import Alert from "../components/feedback/Alert.vue";
     </v-app>
 </template>
 
-<style scoped>
-
+<style>
+    .v-navigation-drawer__content {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+    }
 </style>
