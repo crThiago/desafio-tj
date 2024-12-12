@@ -134,6 +134,7 @@ class LivroServiceTest extends TestCase
             Livro::factory(40)
                 ->create()
                 ->load('autores', 'assuntos')
+                ->sortBy('Titulo')
                 ->skip($itemsPerPage)
                 ->take($itemsPerPage)
                 ->toArray()
@@ -180,6 +181,11 @@ class LivroServiceTest extends TestCase
         $list = $this->livroService->list('Autor Teste')->toArray();
         $this->assertCount(3, $list['data']);
         $this->assertEquals(3, $list['total']);
-        $this->assertEquals($livrosPesquisados->load('autores', 'assuntos')->toArray(), $list['data']);
+        $this->assertEquals(
+            array_values(
+                $livrosPesquisados->load('autores', 'assuntos')->sortBy('Titulo')->toArray()
+            ),
+            $list['data']
+        );
     }
 }

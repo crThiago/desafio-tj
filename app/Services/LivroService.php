@@ -26,6 +26,8 @@ class LivroService extends Repository
             });
         });
 
+        $this->builder->orderBy('Titulo');
+
         return $this->paginate($itemsPerPage, ['*'], 'page', $page);
     }
 
