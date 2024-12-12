@@ -45,6 +45,8 @@ abstract class Repository
      */
     public function paginate(int $perPage = 15, array $columns = ['*'], string $pageName = 'page', int $page = 1)
     {
+        if ($perPage === -1) return $this->getBuilder()->get($this->getColumns($columns));
+
         return $this->getBuilder()->paginate($perPage, $this->getColumns($columns), $pageName, $page);
     }
 
