@@ -16,6 +16,6 @@ class AutorFactory extends Factory
      */
     public function definition(): array
     {
-        return ['Nome' => $this->faker->name()];
+        return ['Nome' => $this->faker->firstName()];
     }
 }
