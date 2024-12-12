@@ -61,7 +61,7 @@ function loadingItems(options) {
 
 function urlImage() {
     const max = 8;
-    return 'https://cdn.vuetifyjs.com/docs/images/graphics/games/' + Math.floor(Math.random() * max) + '.png';
+    return 'https://cdn.vuetifyjs.com/docs/images/graphics/games/' + Math.ceil(Math.random() * max) + '.png';
 }
 
 </script>
