@@ -1,10 +1,42 @@
 <script setup lang="ts">
+import {computed} from "vue";
+import { useDisplay } from 'vuetify'
+
 defineProps({
     title: String,
     icon: String,
     routeName: String
 })
 
+const { lgAndUp, mdAndUp } = useDisplay()
+
+const dimensions = computed(() => {
+    if (lgAndUp.value) {
+        return 250
+    } else if (mdAndUp.value) {
+        return 150
+    }
+
+    return 100
+})
+
+const iconSize = computed(() => {
+    if (lgAndUp.value) {
+        return 'text-h1';
+    } else if (mdAndUp.value) {
+        return 'text-h2';
+    }
+    return 'text-h3';
+})
+
+const titleSize = computed(() => {
+    if (lgAndUp.value) {
+        return 'text-h4';
+    } else if (mdAndUp.value) {
+        return 'text-h5';
+    }
+    return 'text-h6';
+})
 </script>
 
 <template>
@@ -16,13 +48,13 @@ defineProps({
                 class="d-flex flex-column justify-center align-center ma-2"
                 color="secondary"
                 :variant="isHovering ? 'flat' : 'outlined'"
-                :height="$vuetify.display.mobile ? 150 : 250"
-                :width="$vuetify.display.mobile ? 150 : 250"
+                :height="dimensions"
+                :width="dimensions"
                 @click="$router.push({name: routeName})"
             >
                 <v-icon
                     :color="isHovering ? 'white' : 'secondary'"
-                    :class="$vuetify.display.mobile ? 'text-h2' : 'text-h1'"
+                    :class="iconSize"
                     :icon="icon"
                 />
                 <h2

@@ -33,48 +33,29 @@ class LivroController extends Controller
     }
 
     public function store(LivroRequest $request) {
-        DB::beginTransaction();
 
-        try {
-             $result = $this->livroService->create($request->validated());
-             DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            \Log::error($e);
-            return $this->sendError('Ocorreu um erro ao cadastrar o livro');
-        }
+        $result = $this->handleTransaction(function () use ($request) {
+            return $this->livroService->create($request->validated());
+        });
 
         return new LivroResource($result);
     }
 
 
     public function update(LivroRequest $request, Livro $livro) {
-        DB::beginTransaction();
 
-        try {
+        $this->handleTransaction(function () use ($request, $livro) {
             $this->livroService->update($livro->Codl, $request->validated());
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            \Log::error($e);
-            return $this->sendError('Ocorreu um erro ao atualizar o livro');
-        }
+        });
 
         return true;
     }
 
     public function destroy(Livro $livro)
     {
-        DB::beginTransaction();
-
-        try {
+        $this->handleTransaction(function () use ($livro) {
             $this->livroService->delete($livro->Codl);
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            \Log::error($e);
-            return $this->sendError('Ocorreu um erro ao excluir o livro');
-        }
+        });
 
         return true;
     }

@@ -31,15 +31,9 @@ class AutorController extends Controller
 
     public function store(AutorRequest $request)
     {
-        DB::beginTransaction();
-        try {
-            $result = $this->autorService->create($request->validated());
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            \Log::error($e);
-            return $this->sendError('Ocorreu um erro ao cadastrar o autor');
-        }
+        $result = $this->handleTransaction(function () use ($request) {
+            return $this->autorService->create($request->validated());
+        });
 
         return new AutorResource($result);
     }
@@ -51,32 +45,18 @@ class AutorController extends Controller
 
     public function update(AutorRequest $request, Autor $autor)
     {
-        DB::beginTransaction();
-
-        try {
+        $this->handleTransaction(function () use ($request, $autor) {
             $this->autorService->update($autor->CodAu, $request->validated());
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            \Log::error($e);
-            return $this->sendError('Ocorreu um erro ao atualizar o autor');
-        }
+        });
 
         return true;
     }
 
     public function destroy(Autor $autor)
     {
-        DB::beginTransaction();
-
-        try {
+        $this->handleTransaction(function () use ($autor) {
             $this->autorService->delete($autor->CodAu);
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            \Log::error($e);
-            return $this->sendError('Ocorreu um erro ao excluir o autor');
-        }
+        });
 
         return true;
     }

@@ -2,11 +2,10 @@
 import HeaderPage from "../../components/containment/HeaderPage.vue";
 import {computed, inject, ref} from "vue";
 import { useDisplay } from 'vuetify'
-import DialogDeleteAuthorConfirmation from "../../components/dialog/DialogDeleteAuthorConfirmation.vue";
 import DialogDeleteBookConfirmation from "../../components/dialog/DialogDeleteBookConfirmation.vue";
 import CurrencyText from "../../components/field/CurrencyText.vue";
 
-const { lgAndUp, mdAndUp } = useDisplay()
+const { xlAndUp, mdAndUp } = useDisplay()
 
 const search = ref('');
 
@@ -19,7 +18,7 @@ const loading = ref(false);
 const deleteId = ref(0);
 
 const itemsPerPage = computed(() => {
-    if (lgAndUp.value) {
+    if (xlAndUp.value) {
         return 12;
     } else if (mdAndUp.value) {
         return 6;
@@ -27,7 +26,7 @@ const itemsPerPage = computed(() => {
     return 4;
 });
 const loaderItems = computed(() => {
-    if (lgAndUp.value) {
+    if (xlAndUp.value) {
         return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
     } else if (mdAndUp.value) {
         return [0, 1, 2, 3, 4, 5];
@@ -71,7 +70,6 @@ function urlImage() {
         title="Livros"
         icon="mdi-bookshelf"
     />
-
     <v-row no-gutters>
         <v-col cols="12" sm="3">
             <v-text-field
@@ -120,9 +118,10 @@ function urlImage() {
                 <v-col
                     v-for="item in items"
                     :key="item.raw.Codl"
-                    cols="6"
+                    cols="12"
+                    sm="6"
                     md="4"
-                    lg="2"
+                    xl="2"
                 >
                     <div class="position-relative">
                         <v-img :src="urlImage()"></v-img>
@@ -142,7 +141,7 @@ function urlImage() {
                         <v-card-item>
                             <v-card-title>{{ item.raw.Titulo }}</v-card-title>
 
-                            <v-card-subtitle class="d-flex justify-lg-space-between">
+                            <v-card-subtitle class="d-flex justify-space-between">
                                 <div>
                                     <v-icon
                                         icon="mdi-domain"

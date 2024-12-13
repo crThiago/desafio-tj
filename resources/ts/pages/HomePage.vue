@@ -5,14 +5,14 @@ import QuickAccessOption from "../components/containment/QuickAccessOption.vue";
 
 <template>
     <v-row justify="center">
-        <v-col cols="12" lg="9">
+        <v-col cols="12" lg="12" xl="8">
             <v-card
                 color="transparent"
                 elevation="0"
                 class="mt-sm-16"
             >
                 <v-card-title class="text-center mb-10">
-                    <h1 class="text-grey-darken-2 font-weight-bold">
+                    <h1 class="text-secondary font-weight-bold">
                         Acesso Rápido
                     </h1>
                     <h2 class="text-h6"> Selecione uma das opcões abaixo:</h2>

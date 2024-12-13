@@ -33,15 +33,9 @@ class AssuntoController extends Controller
 
     public function store(AssuntoRequest $request)
     {
-        DB::beginTransaction();
-        try {
-            $result = $this->assuntoService->create($request->validated());
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            \Log::error($e);
-            return $this->sendError('Ocorreu um erro ao cadastrar o assunto');
-        }
+        $result = $this->handleTransaction(function () use ($request) {
+            return $this->assuntoService->create($request->validated());
+        });
 
         return new AssuntoResource($result);
     }
@@ -53,32 +47,18 @@ class AssuntoController extends Controller
 
     public function update(AssuntoRequest $request, Assunto $assunto)
     {
-        DB::beginTransaction();
-
-        try {
+        $this->handleTransaction(function () use ($request, $assunto) {
             $this->assuntoService->update($assunto->codAs, $request->validated());
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            \Log::error($e);
-            return $this->sendError('Ocorreu um erro ao atualizar o assunto');
-        }
+        });
 
         return true;
     }
 
     public function destroy(Assunto $assunto)
     {
-        DB::beginTransaction();
-
-        try {
-            $this->assuntoService->delete($assunto->codAs);
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            \Log::error($e);
-            return $this->sendError('Ocorreu um erro ao excluir o assunto');
-        }
+        $this->handleTransaction(function () use ( $assunto) {
+            return $this->assuntoService->delete($assunto->codAs);
+        });
 
         return true;
     }
