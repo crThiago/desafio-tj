@@ -15,7 +15,7 @@ const loading = ref(false);
 let timeoutId;
 
 const headers = [
-    { title: 'Descrição', sortable: false, key: 'Descricao' },
+    { title: 'Descrição', sortable: true, key: 'Descricao' },
     { title: 'Quantidade Livros', sortable: false, key: 'livros_count', align: 'center'},
     { title: 'Ações', key: 'actions', sortable: false },
 ]

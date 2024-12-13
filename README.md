@@ -78,12 +78,17 @@ php artisan key:generate
 php artisan migrate:fresh --seed
 ```
 
-5. Rodar o projeto
+5. Criar link simbólico para o storage
+```bash
+php artisan storage:link
+```
+
+6. Rodar o projeto
 ```bash
 npm run dev
 ```
 
-6. Acessar [http://localhost](http://localhost)
+7. Acessar [http://localhost](http://localhost)
 
 ## 🧪 Testes 
 

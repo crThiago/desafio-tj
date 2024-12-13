@@ -56,7 +56,7 @@ class AutorServiceTest extends TestCase
 
         Autor::factory(40)->create();
 
-        $list = $this->autorService->list(null, $page, $itemsPerPage)->toArray();
+        $list = $this->autorService->list(null, [], $page, $itemsPerPage)->toArray();
         $this->assertCount($itemsPerPage, $list['data']);
         $this->assertEquals($page, $list['current_page']);
         $this->assertEquals(40, $list['total']);
@@ -71,5 +71,13 @@ class AutorServiceTest extends TestCase
         $this->assertCount(1, $list['data']);
         $this->assertEquals(1, $list['total']);
         $this->assertEquals($autorPesquisado->CodAu, $list['data'][0]['CodAu']);
+    }
+
+    public function test_list_autores_order_by_nome(): void
+    {
+        $autores = Autor::factory(40)->create();
+
+        $list = $this->autorService->list('', [['key' => 'Nome', 'order' => 'desc']])->toArray();
+        $this->assertEquals($autores->sortByDesc('Nome')->first()->CodAu, $list['data'][0]['CodAu']);
     }
 }

@@ -179,4 +179,24 @@ class LivroServiceTest extends TestCase
             $list['data']
         );
     }
+
+    public function test_list_livros_search_assunto(): void
+    {
+        $livrosPesquisados = Livro::factory(40)->create()->take(3);
+        $assuntoPesquisado = Assunto::factory()->create(['Descricao' => 'Assunto Teste']);
+
+        foreach ($livrosPesquisados as $livro) {
+            $livro->assuntos()->attach($assuntoPesquisado->codAs);
+        }
+
+        $list = $this->livroService->list('Assunto Teste')->toArray();
+        $this->assertCount(3, $list['data']);
+        $this->assertEquals(3, $list['total']);
+        $this->assertEquals(
+            array_values(
+                $livrosPesquisados->load('autores', 'assuntos')->sortBy('Titulo')->toArray()
+            ),
+            $list['data']
+        );
+    }
 }

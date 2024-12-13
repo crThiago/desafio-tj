@@ -58,11 +58,6 @@ function loadingItems(options) {
     }, 300)
 }
 
-function urlImage() {
-    const max = 8;
-    return 'https://cdn.vuetifyjs.com/docs/images/graphics/games/' + Math.ceil(Math.random() * max) + '.png';
-}
-
 </script>
 
 <template>
@@ -79,7 +74,7 @@ function urlImage() {
                 label="Pesquisar"
                 variant="underlined"
                 append-inner-icon="mdi-magnify"
-                placeholder="Digite o Título, Editora ou Autor"
+                placeholder="Digite o Título, Editora, Assunto ou Autor"
             ></v-text-field>
         </v-col>
         <v-spacer></v-spacer>
@@ -124,16 +119,37 @@ function urlImage() {
                     xl="2"
                 >
                     <div class="position-relative">
-                        <v-img :src="urlImage()"></v-img>
+                        <v-sheet>
+                            <v-img
+                                class="mx-auto"
+                                height="300"
+                                :src="`/storage/capa-livros/${item.raw.Codl}.jpg`"
+                            >
+                                <template v-slot:error>
+                                    <v-sheet class="d-flex flex-column align-center justify-center" border height="300">
+                                        <v-icon
+                                            icon="mdi-image"
+                                            color="secondary"
+                                            size="100"
+                                        />
+                                        <p
+                                            color="secondary"
+                                            class="text-body-1 text-center"
+                                            variant="outlined"
+                                        >Capa não adicionada</p>
+                                    </v-sheet>
+                                </template>
+                            </v-img>
 
-                        <v-chip
-                            color="secondary"
-                            class="position-absolute bottom-0 right-0 font-weight-bold"
-                            label
-                            variant="flat"
-                        >
-                            <currency-text :value="item.raw.Valor" />
-                        </v-chip>
+                            <v-chip
+                                color="secondary"
+                                class="position-absolute bottom-0 right-0 font-weight-bold"
+                                label
+                                variant="flat"
+                            >
+                                <currency-text :value="item.raw.Valor" />
+                            </v-chip>
+                        </v-sheet>
                     </div>
 
                     <v-card border flat>
