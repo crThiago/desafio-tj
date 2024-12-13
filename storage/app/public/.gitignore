@@ -1,2 +1,3 @@
 *
-!.gitignore
+!capa-livros
+!capa-livros/*.jpg
