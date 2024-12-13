@@ -69,6 +69,17 @@ export class AxiosAdapter implements HttpClient {
     }
 
     private interceptError(error: any) {
+        if (error.response.status === 422) {
+            store.commit('alert/show', {
+                message: error.response.data.message,
+                type: 'warning'
+            });
+        } else if (error.response.status === 500) {
+            store.commit('alert/show', {
+                message: 'Ocorreu um erro um erro interno, tente novamente mais tarde',
+                type: 'error'
+            });
+        }
         return Promise.reject(error);
     }
 }

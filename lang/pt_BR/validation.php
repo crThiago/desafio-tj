@@ -12,7 +12,6 @@ return [
     | as the size rules. Feel free to tweak each of these messages here.
     |
     */
-
     'accepted'             => 'O campo :attribute deve ser aceito.',
     'accepted_if'          => 'O :attribute deve ser aceito quando :other for :value.',
     'active_url'           => 'O campo :attribute não é uma URL válida.',
