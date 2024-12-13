@@ -23,6 +23,7 @@ class AutorController extends Controller
         return new PaginateCollection(
             $this->autorService->list(
                 $request->get('search', ''),
+                $request->get('sortBy', []),
                 $request->get('page', 1),
                 $request->get('itemsPerPage', 15)
             )

@@ -56,7 +56,7 @@ class AssuntoServiceTest extends TestCase
 
         Assunto::factory(40)->create();
 
-        $list = $this->assuntoService->list(null, $page, $itemsPerPage)->toArray();
+        $list = $this->assuntoService->list(null, [], $page, $itemsPerPage)->toArray();
         $this->assertCount($itemsPerPage, $list['data']);
         $this->assertEquals($page, $list['current_page']);
         $this->assertEquals(40, $list['total']);
@@ -71,5 +71,13 @@ class AssuntoServiceTest extends TestCase
         $this->assertCount(1, $list['data']);
         $this->assertEquals(1, $list['total']);
         $this->assertEquals($assuntoPesquisado->codAs, $list['data'][0]['codAs']);
+    }
+
+    public function test_list_assunto_order_by_descricao(): void
+    {
+        $assuntos = Assunto::factory(40)->create();
+
+        $list = $this->assuntoService->list('', [['key' => 'Descricao', 'order' => 'desc']])->toArray();
+        $this->assertEquals($assuntos->sortByDesc('Descricao')->first()->codAs, $list['data'][0]['codAs']);
     }
 }

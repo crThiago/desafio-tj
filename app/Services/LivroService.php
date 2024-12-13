@@ -22,6 +22,9 @@ class LivroService extends Repository
                     ->orWhere('Editora', 'like', '%' . $search . '%')
                     ->orWhereHas('autores', function ($query) use ($search) {
                         $query->where('Nome', 'like', '%' . $search . '%');
+                    })
+                    ->orWhereHas('assuntos', function ($query) use ($search) {
+                        $query->where('Descricao', 'like', '%' . $search . '%');
                     });
             });
         });
